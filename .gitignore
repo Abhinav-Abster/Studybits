@@ -1,0 +1,29 @@
+# Environments
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# ADK State
+.adk/
+*.db
+*.sqlite3
+
+# Data (Optional: uncomment if you don't want to track generated plans/profiles)
+# data/plans/
+# data/profiles/
+
+# OS Files
+.DS_Store
+Thumbs.db

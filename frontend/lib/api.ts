@@ -8,7 +8,8 @@
  *   import { generatePlan, loadPlan } from "@/lib/api"
  */
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const rawApiBase = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_BASE = rawApiBase.endsWith("/") ? rawApiBase.slice(0, -1) : rawApiBase;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types — mirror the Python agent output schemas exactly
@@ -273,7 +274,9 @@ export async function loadProfile(userId: string) {
 
 export async function healthCheck(): Promise<boolean> {
   try {
-    const res = await fetch(`${API_BASE}/health`);
+    const res = await fetch(`${API_BASE}/health?t=${Date.now()}`, {
+      cache: "no-store",
+    });
     return res.ok;
   } catch {
     return false;

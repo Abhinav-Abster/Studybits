@@ -148,9 +148,19 @@ export default function Home() {
 
   const logContainerRef = useRef<HTMLDivElement>(null);
 
-  // Check health on mount
+  // Check health on mount and poll periodically to handle wake-ups (e.g. cold starts)
   useEffect(() => {
-    healthCheck().then((alive) => setBackendAlive(alive));
+    let active = true;
+    const check = async () => {
+      const alive = await healthCheck();
+      if (active) setBackendAlive(alive);
+    };
+    check();
+    const interval = setInterval(check, 15000); // Check every 15s
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
   }, []);
 
   // Scroll logs to bottom
@@ -166,6 +176,7 @@ export default function Home() {
     setSuccessMsg(null);
     try {
       const profile = await loadProfile(userId);
+      setBackendAlive(true);
       if (profile && profile.success && profile.profile) {
         const p = JSON.parse(profile.profile);
         if (p.days_until_exam) setDays(Number(p.days_until_exam));
@@ -223,6 +234,7 @@ export default function Home() {
         userId,
         pdf: pdfFile || undefined,
         onProgress: (p: ProgressEvent) => {
+          setBackendAlive(true);
           setCurrentAgent(p.agent);
           setCurrentStep(p.step);
           setProgressLog((prev) => [
@@ -231,6 +243,7 @@ export default function Home() {
           ]);
         },
         onResult: (r: ResultEvent) => {
+          setBackendAlive(true);
           console.log("[SSE Result]", r.key, r.agent, typeof r.data, r.data);
           setProgressLog((prev) => [
             ...prev,
@@ -255,6 +268,7 @@ export default function Home() {
           }
         },
         onDone: (doneEvent) => {
+          setBackendAlive(true);
           setIsLoading(false);
           setCurrentAgent(null);
           setCurrentStep(0);

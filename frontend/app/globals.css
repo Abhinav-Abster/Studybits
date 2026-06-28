@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+/* ─── Force light mode — override system dark preference ───────────────────── */
+@layer base {
+  html {
+    color-scheme: light only;
+  }
+}
+
+/* ─── Tailwind v4 Theme Tokens (static values, NOT var() refs) ─────────────── */
+
+@theme inline {
+  /* Colors — use actual hex values so Tailwind resolves them correctly */
+  --color-hd-bg: #fdfbf7;
+  --color-hd-fg: #2d2d2d;
+  --color-hd-muted: #e5e0d8;
+  --color-hd-accent: #ff4d4d;
+  --color-hd-border: #2d2d2d;
+  --color-hd-blue: #2d5da1;
+  --color-hd-yellow: #fff9c4;
+  --color-hd-white: #ffffff;
+
+  /* Fonts — reference the CSS variable set by next/font/google */
+  --font-heading: var(--font-kalam), "Kalam", cursive;
+  --font-body: var(--font-patrick-hand), "Patrick Hand", cursive;
+
+  /* Animations */
+  --animate-bounce-gentle: bounce-gentle 3s ease-in-out infinite;
+  --animate-jiggle: jiggle 0.3s ease-in-out;
+  --animate-scribble-in: scribble-in 0.4s ease-out forwards;
+}
+
+/* ─── Base Styles ──────────────────────────────────────────────────────────── */
+
+body {
+  background-color: #fdfbf7;
+  color: #2d2d2d;
+  font-family: var(--font-patrick-hand), "Patrick Hand", cursive, sans-serif;
+  /* Dot-grid paper texture */
+  background-image: radial-gradient(#e5e0d8 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-kalam), "Kalam", cursive;
+}
+
+/* ─── Utility Classes ──────────────────────────────────────────────────────── */
+
+/* Wobbly borders - apply via className */
+.wobbly {
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+.wobbly-md {
+  border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;
+}
+
+.wobbly-sm {
+  border-radius: 105px 10px 120px 10px / 10px 120px 10px 105px;
+}
+
+.wobbly-alt {
+  border-radius: 185px 25px 195px 20px / 20px 195px 25px 185px;
+}
+
+/* Hard offset shadows */
+.shadow-hard {
+  box-shadow: 4px 4px 0px 0px #2d2d2d;
+}
+
+.shadow-hard-sm {
+  box-shadow: 3px 3px 0px 0px rgba(45, 45, 45, 0.15);
+}
+
+.shadow-hard-lg {
+  box-shadow: 8px 8px 0px 0px #2d2d2d;
+}
+
+.shadow-hard-hover {
+  box-shadow: 2px 2px 0px 0px #2d2d2d;
+}
+
+.shadow-hard-none {
+  box-shadow: 0px 0px 0px 0px #2d2d2d;
+}
+
+/* Tape decoration */
+.tape-decoration {
+  position: relative;
+}
+.tape-decoration::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 60px;
+  height: 18px;
+  background: rgba(45, 45, 45, 0.08);
+  border-radius: 2px;
+  z-index: 2;
+}
+
+/* Tack decoration */
+.tack-decoration {
+  position: relative;
+}
+.tack-decoration::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: #ff4d4d;
+  border-radius: 50%;
+  border: 2px solid #2d2d2d;
+  box-shadow: 1px 1px 0px 0px rgba(45, 45, 45, 0.3);
+  z-index: 2;
+}
+
+/* Hand-drawn underline */
+.underline-sketch {
+  text-decoration: none;
+  background-image: linear-gradient(
+    to right,
+    #2d2d2d 33%,
+    transparent 33%,
+    transparent 66%,
+    #2d2d2d 66%
+  );
+  background-size: 6px 2px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  padding-bottom: 3px;
+}
+
+/* Notebook lined paper effect */
+.notebook-lines {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 27px,
+    #e5e0d8 27px,
+    #e5e0d8 28px
+  );
+}
+
+/* Custom scrollbar for hand-drawn feel */
+.scrollbar-sketch::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-sketch::-webkit-scrollbar-track {
+  background: #e5e0d8;
+  border-radius: 4px;
+}
+
+.scrollbar-sketch::-webkit-scrollbar-thumb {
+  background: #2d2d2d;
+  border-radius: 4px;
+  border: 2px solid #e5e0d8;
+}
+
+/* Custom range slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #e5e0d8;
+  border-radius: 3px;
+  outline: none;
+  border: 2px solid #2d2d2d;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #ffffff;
+  border: 3px solid #2d2d2d;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px 0px #2d2d2d;
+  transition: box-shadow 0.1s, transform 0.1s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: #ff4d4d;
+  transform: scale(1.1);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+  box-shadow: 0px 0px 0px 0px #2d2d2d;
+  transform: scale(0.95);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #ffffff;
+  border: 3px solid #2d2d2d;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px 0px #2d2d2d;
+}
+
+/* ─── Keyframe Animations ──────────────────────────────────────────────────── */
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+@keyframes jiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+  75% { transform: rotate(-0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes scribble-in {
+  0% { opacity: 0; transform: scale(0.95) rotate(-2deg); }
+  60% { transform: scale(1.02) rotate(0.5deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes pencil-draw {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}

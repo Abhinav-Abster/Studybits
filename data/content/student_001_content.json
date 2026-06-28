@@ -1,0 +1,134 @@
+{
+  "course_name": "Design and Analysis of Algorithms (21CSC204J)",
+  "topics": [
+    {
+      "topic_id": "U1T3",
+      "title": "Time & Space complexity",
+      "unit": "Introduction to Algorithms",
+      "summary": "- **Time complexity** quantifies the amount of time an algorithm takes to run as a function of the input size, typically represented by N.\n- **Space complexity** quantifies the amount of memory an algorithm uses as a function of the input size.\n- **Big-O notation (O)** describes the upper bound of an algorithm's growth rate, representing the worst-case scenario.\n- **Omega notation (\u03a9)** describes the lower bound, representing the best-case scenario.\n- **Theta notation (\u0398)** describes the tight bound, when the best-case and worst-case complexities are asymptotically the same.\n- Algorithm analysis often focuses on **worst-case time complexity** to provide a guaranteed maximum performance limit.",
+      "key_concepts": [
+        "Big-O Notation",
+        "Omega Notation",
+        "Theta Notation",
+        "Time Complexity",
+        "Space Complexity",
+        "Asymptotic Analysis",
+        "Worst-case complexity",
+        "Best-case complexity",
+        "Average-case complexity"
+      ],
+      "mcqs": [
+        {
+          "question": "Which asymptotic notation provides an upper bound for the running time of an algorithm?",
+          "options": {
+            "A": "Theta (\u0398) notation",
+            "B": "Omega (\u03a9) notation",
+            "C": "Big-O (O) notation",
+            "D": "Small-o (o) notation"
+          },
+          "correct_answer": "C",
+          "explanation": "Big-O notation describes the upper bound of an algorithm's growth rate, indicating the maximum time an algorithm will take."
+        },
+        {
+          "question": "An algorithm has a time complexity of O(N log N). If N is doubled, how does the running time approximately change?",
+          "options": {
+            "A": "It doubles",
+            "B": "It quadruples",
+            "C": "It more than doubles but less than quadruples",
+            "D": "It remains the same"
+          },
+          "correct_answer": "C",
+          "explanation": "If T(N) = N log N, then T(2N) = 2N log(2N) = 2N (log N + log 2) = 2N log N + 2N. This is more than doubling (2N log N) but less than quadrupling."
+        },
+        {
+          "question": "Consider an algorithm that iterates through an array of size N once and then performs a binary search on the same array. What is the overall time complexity?",
+          "options": {
+            "A": "O(log N)",
+            "B": "O(N)",
+            "C": "O(N log N)",
+            "D": "O(N^2)"
+          },
+          "correct_answer": "B",
+          "explanation": "Iterating through the array takes O(N) time. Binary search takes O(log N) time. The dominant term is O(N), so the overall complexity is O(N + log N) which simplifies to O(N)."
+        },
+        {
+          "question": "Which of the following scenarios would typically require the analysis of the best-case time complexity?",
+          "options": {
+            "A": "To guarantee the maximum time an algorithm will ever take.",
+            "B": "To understand the minimum time an algorithm might take under ideal conditions.",
+            "C": "To determine the average performance for typical inputs.",
+            "D": "To compare the scalability of algorithms for large inputs."
+          },
+          "correct_answer": "B",
+          "explanation": "Best-case complexity (often denoted by Omega notation) helps understand the minimum time an algorithm needs, typically under ideal input conditions."
+        }
+      ]
+    },
+    {
+      "topic_id": "U5T1",
+      "title": "Complexity Classes and Concepts",
+      "unit": "NP-Completeness",
+      "summary": "- **P (Polynomial time)**: This class includes decision problems that can be solved by a deterministic Turing machine in polynomial time.\n- **NP (Non-deterministic Polynomial time)**: This class includes decision problems for which a given solution (certificate) can be *verified* in polynomial time by a deterministic Turing machine.\n- **NP-Hard**: A problem H is NP-Hard if every problem L in NP can be reduced to H in polynomial time; meaning H is at least as hard as any problem in NP.\n- **NP-Complete (NPC)**: A problem is NP-Complete if it is both in NP and is NP-Hard; these are the 'hardest' problems in NP and are inter-reducible.\n- **Cook's Theorem**: A landmark result proving that the Boolean Satisfiability Problem (SAT) is NP-Complete, establishing the existence of NP-Complete problems.",
+      "key_concepts": [
+        "P class",
+        "NP class",
+        "NP-Hard class",
+        "NP-Complete class",
+        "Polynomial Time",
+        "Non-deterministic Polynomial Time",
+        "Verification",
+        "Reducibility",
+        "Cook's Theorem",
+        "Satisfiability Problem (SAT)"
+      ],
+      "mcqs": [
+        {
+          "question": "Which statement accurately describes a problem in the P class?",
+          "options": {
+            "A": "Its solution can be verified in polynomial time, but not necessarily solved.",
+            "B": "It can be solved by a deterministic algorithm in polynomial time.",
+            "C": "It is at least as hard as any problem in NP.",
+            "D": "It has no known polynomial-time algorithm, but one might exist."
+          },
+          "correct_answer": "B",
+          "explanation": "Problems in P are those that can be solved by a deterministic algorithm in polynomial time, implying efficient solvability."
+        },
+        {
+          "question": "A problem L is said to be NP-Complete if:",
+          "options": {
+            "A": "It can be solved in polynomial time and it is NP-Hard.",
+            "B": "It is in NP and every problem in P can be reduced to it in polynomial time.",
+            "C": "It is in NP and every problem in NP can be reduced to it in polynomial time.",
+            "D": "It is not in NP but is NP-Hard."
+          },
+          "correct_answer": "C",
+          "explanation": "An NP-Complete problem must satisfy two conditions: it belongs to NP, and it is NP-Hard (meaning all problems in NP can be polynomially reduced to it)."
+        },
+        {
+          "question": "Which of the following is a direct implication of Cook's Theorem?",
+          "options": {
+            "A": "P = NP.",
+            "B": "No NP-Complete problem can be solved in polynomial time.",
+            "C": "The Satisfiability Problem (SAT) is the hardest problem in P.",
+            "D": "The Satisfiability Problem (SAT) is NP-Complete."
+          },
+          "correct_answer": "D",
+          "explanation": "Cook's Theorem (also known as the Cook-Levin theorem) established that the Boolean Satisfiability Problem (SAT) is NP-Complete, proving the existence of such problems."
+        },
+        {
+          "question": "If P = NP, which of the following would be true?",
+          "options": {
+            "A": "All problems in NP-Hard would also be in P.",
+            "B": "No NP-Complete problems would exist.",
+            "C": "Every problem whose solution can be efficiently verified can also be efficiently solved.",
+            "D": "Traveling Salesperson Problem (TSP) would still be NP-Hard but not in P."
+          },
+          "correct_answer": "C",
+          "explanation": "If P = NP, it means that any problem whose solution can be verified in polynomial time (NP) can also be solved in polynomial time (P). This fundamentally changes our understanding of computational limits."
+        }
+      ]
+    }
+  ],
+  "total_topics": 2,
+  "total_mcqs": 8
+}

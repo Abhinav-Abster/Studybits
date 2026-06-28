@@ -53,6 +53,9 @@ PLANS_DIR.mkdir(exist_ok=True)
 PROFILES_DIR = DATA_DIR / "profiles"
 PROFILES_DIR.mkdir(exist_ok=True)
 
+CONTENT_DIR = DATA_DIR / "content"
+CONTENT_DIR.mkdir(exist_ok=True)
+
 
 # ── Security helper ────────────────────────────────────────────────────────────
 
@@ -216,12 +219,76 @@ def load_user_profile(user_id: str) -> dict:
         return {"success": False, "profile": {}, "error": str(e)}
 
 
+# ── Content Pack Tools ─────────────────────────────────────────────────────────
+
+@mcp.tool()
+def save_content_pack(filename: str, content: str) -> dict:
+    """
+    Save a generated content pack (summaries + MCQs) to disk as a JSON file.
+
+    Args:
+        filename: Name for the file (e.g. 'daa_content.json'). Must be alphanumeric.
+        content:  The content pack as a JSON string.
+
+    Returns:
+        dict with 'success', 'path', and optional 'error'.
+    """
+    try:
+        if not filename.endswith(".json"):
+            filename += ".json"
+        path = _safe_path(CONTENT_DIR, filename)
+
+        # Try to pretty-print if valid JSON, else save as-is
+        try:
+            parsed = json.loads(content)
+            to_write = json.dumps(parsed, indent=2)
+        except json.JSONDecodeError:
+            to_write = content
+
+        path.write_text(to_write, encoding="utf-8")
+        return {"success": True, "path": str(path), "error": ""}
+    except Exception as e:
+        return {"success": False, "path": "", "error": str(e)}
+
+
+@mcp.tool()
+def load_content_pack(filename: str) -> dict:
+    """
+    Load a previously saved content pack from disk.
+
+    Args:
+        filename: Name of the file to load (e.g. 'daa_content.json').
+
+    Returns:
+        dict with 'success', 'content' (string), 'filename', and optional 'error'.
+    """
+    try:
+        if not filename.endswith(".json"):
+            filename += ".json"
+        path = _safe_path(CONTENT_DIR, filename)
+
+        if not path.exists():
+            return {
+                "success": False,
+                "content": "",
+                "filename": filename,
+                "error": f"File not found: {filename}",
+            }
+
+        content = path.read_text(encoding="utf-8")
+        return {"success": True, "content": content, "filename": filename, "error": ""}
+    except Exception as e:
+        return {"success": False, "content": "", "filename": filename, "error": str(e)}
+
+
 # ── Entry point ────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     print("🚀 StudyPlan MCP Server starting (stdio transport)...")
     print(f"   Data directory: {DATA_DIR}")
     print(f"   Plans dir:      {PLANS_DIR}")
     print(f"   Profiles dir:   {PROFILES_DIR}")
+    print(f"   Content dir:    {CONTENT_DIR}")
     print("   Tools: save_study_plan, load_study_plan, list_saved_plans,")
-    print("          save_user_profile, load_user_profile")
+    print("          save_user_profile, load_user_profile,")
+    print("          save_content_pack, load_content_pack")
     mcp.run(transport="stdio")

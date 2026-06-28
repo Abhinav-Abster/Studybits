@@ -1,37 +1,21 @@
 """
-pipeline.py
+pipeline.py  (root)
 
-THE PIPELINE (Day 3 version)
-─────────────────────────────
-SequentialAgent that runs:
-  1. SyllabusParserAgent    → writes session.state["parsed_topics"]
-  2. TopicPrioritizerAgent  → reads {parsed_topics}, writes session.state["priority_plan"]
-  3. ScheduleBuilderAgent   → reads {priority_plan}, writes session.state["study_schedule"]
+Root entry point for ADK tooling (adk web, adk run) and app.py / run.py.
 
-Day 4 will add ContentAgent to the sub_agents list here.
+The real agent tree lives in agents/:
+  orchestrator_agent  ← root_agent (LlmAgent, routes by intent)
+  ├── study_plan_pipeline  (SequentialAgent — full flow)
+  │   ├── SyllabusParserAgent
+  │   ├── TopicPrioritizerAgent
+  │   ├── ScheduleBuilderAgent
+  │   └── ContentGeneratorAgent
+  └── StandaloneContentAgent  (direct MCQ/summary requests)
 
-State flow:
-  syllabus_text (user msg)
-      ↓ ParserAgent         → parsed_topics
-      ↓ PrioritizerAgent    → priority_plan
-      ↓ ScheduleAgent       → study_schedule
+`adk web .` looks for `root_agent` in this file.
+`app.py` and `run.py` also import `root_agent` from here.
 """
 
-from google.adk.agents import SequentialAgent
+from agents.orchestrator_agent import orchestrator_agent
 
-from agents.parser_agent import parser_agent
-from agents.prioritizer_agent import prioritizer_agent
-from agents.schedule_agent import schedule_agent
-
-root_agent = SequentialAgent(
-    name="StudyPlanPipeline",
-    description=(
-        "Converts a syllabus into a prioritized, day-by-day study plan. "
-        "Runs: Parser → Prioritizer → ScheduleBuilder in sequence."
-    ),
-    sub_agents=[
-        parser_agent,
-        prioritizer_agent,
-        schedule_agent,
-    ],
-)
+root_agent = orchestrator_agent

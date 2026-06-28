@@ -1,7 +1,7 @@
 """
 run.py
 
-CLI test runner for the StudyPlan pipeline (Day 3 version).
+CLI test runner for the StudyPlan pipeline (Day 4 version).
 
 Usage:
     python run.py                                  # sample syllabus, 7 days, 4 hrs/day
@@ -32,7 +32,12 @@ from tools.pdf_tools import read_pdf_file, sanitize_syllabus_text
 # Note: agents access MCP via MCPToolset; run.py uses the functions directly
 # since it's the orchestration layer, not an agent itself.
 sys.path.insert(0, os.path.dirname(__file__))
-from mcp_server.server import save_study_plan, save_user_profile, load_user_profile
+from mcp_server.server import (
+    save_study_plan,
+    save_user_profile,
+    load_user_profile,
+    save_content_pack,
+)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 APP_NAME   = "studyplan_ai"
@@ -158,9 +163,9 @@ async def main(args):
         parts=[types.Part(text=syllabus_text)],
     )
 
-    sep("🤖 Running StudyPlan Pipeline (Day 3)")
-    print("Agents: Parser → Prioritizer → ScheduleBuilder")
-    print("(~30-45 seconds — three Gemini calls)\n")
+    sep("🤖 Running StudyPlan Pipeline (Day 4)")
+    print("Agents: Orchestrator → Parser → Prioritizer → ScheduleBuilder → ContentGenerator")
+    print("(~60-90 seconds — four Gemini calls + orchestrator routing)\n")
 
     final_responses = {}
 
@@ -179,9 +184,11 @@ async def main(args):
 
     # ── Print results ──────────────────────────────────────────────────────────
     for agent_name, title in [
-        ("SyllabusParserAgent",   "📋 PARSER — Structured Topics"),
-        ("TopicPrioritizerAgent", "🎯 PRIORITIZER — Ranked Topics"),
-        ("ScheduleBuilderAgent",  "📅 SCHEDULE — Day-by-Day Plan"),
+        ("SyllabusParserAgent",      "📋 PARSER — Structured Topics"),
+        ("TopicPrioritizerAgent",    "🎯 PRIORITIZER — Ranked Topics"),
+        ("ScheduleBuilderAgent",     "📅 SCHEDULE — Day-by-Day Plan"),
+        ("ContentGeneratorAgent",    "📚 CONTENT — Summaries + MCQs"),
+        ("StandaloneContentAgent",   "📚 CONTENT — Summaries + MCQs (standalone)"),
     ]:
         sep(title)
         if agent_name in final_responses:
@@ -191,7 +198,7 @@ async def main(args):
 
     # ── Save final plan via MCP server ─────────────────────────────────────────
     if "ScheduleBuilderAgent" in final_responses:
-        sep("💾 Saving via MCP Server")
+        sep("💾 Saving Study Plan via MCP Server")
         save_result = save_study_plan(
             filename=f"{args.user}_study_plan.json",
             content=final_responses["ScheduleBuilderAgent"],
@@ -200,6 +207,22 @@ async def main(args):
             print(f"✅ Plan saved to: {save_result['path']}")
         else:
             print(f"❌ Save failed: {save_result['error']}")
+
+    # ── Save content pack via MCP server ───────────────────────────────────────
+    content_output = (
+        final_responses.get("ContentGeneratorAgent")
+        or final_responses.get("StandaloneContentAgent")
+    )
+    if content_output:
+        sep("💾 Saving Content Pack via MCP Server")
+        content_result = save_content_pack(
+            filename=f"{args.user}_content_pack.json",
+            content=content_output,
+        )
+        if content_result["success"]:
+            print(f"✅ Content pack saved to: {content_result['path']}")
+        else:
+            print(f"❌ Save failed: {content_result['error']}")
 
     # ── Session state summary ──────────────────────────────────────────────────
     updated = await session_service.get_session(
@@ -211,13 +234,13 @@ async def main(args):
             preview = str(v)[:80] + "..." if len(str(v)) > 80 else str(v)
             print(f"  [{k}] {preview}")
 
-    sep("✨ Done! Day 3 complete.")
-    print("Next → Day 4: ContentAgent (summaries + MCQs per topic)")
-    print("       Run `adk web .` to explore in the visual debugger")
+    sep("✨ Done! Day 4 complete.")
+    print("Pipeline: Orchestrator → Parser → Prioritizer → ScheduleBuilder → ContentGenerator")
+    print("Run `adk web .` to explore in the visual debugger")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="StudyPlan AI — Day 3 runner")
+    parser = argparse.ArgumentParser(description="StudyPlan AI — Day 4 runner")
     parser.add_argument("--pdf",   help="Path to PDF inside /data")
     parser.add_argument("--text",  help="Raw syllabus text")
     parser.add_argument("--days",  type=int,   help="Days until exam (default: 7)")

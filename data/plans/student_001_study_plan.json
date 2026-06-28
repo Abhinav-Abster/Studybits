@@ -1,94 +1,44 @@
-```json
 {
   "course_name": "Design and Analysis of Algorithms (21CSC204J)",
-  "total_days": 5,
-  "daily_hours": 3.0,
+  "total_days": 1,
+  "daily_hours": 1.0,
   "schedule": [
     {
       "day": 1,
-      "label": "Day 1 — Foundational Concepts",
-      "daily_goal": "Focus on the fundamental introduction to biotechnology.",
-      "topics": [
-        {
-          "topic_id": "U1T1",
-          "title": "Introduction to Biotechnology",
-          "hours": 2.0,
-          "study_tip": "Grasp key concepts and historical context to build a strong foundation for all units."
-        }
-      ],
-      "total_hours": 2.0,
-      "is_revision_day": false
-    },
-    {
-      "day": 2,
-      "label": "Day 2 — Core Techniques",
-      "daily_goal": "Dive into essential molecular biology techniques.",
-      "topics": [
-        {
-          "topic_id": "U1T2",
-          "title": "Molecular biology techniques",
-          "hours": 3.0,
-          "study_tip": "Focus on understanding the principles and applications of core techniques like PCR, gel electrophoresis, and cloning."
-        }
-      ],
-      "total_hours": 3.0,
-      "is_revision_day": false
-    },
-    {
-      "day": 3,
-      "label": "Day 3 — Cell and Tissue Basics",
-      "daily_goal": "Understand the fundamentals of cell culture and tissue engineering.",
-      "topics": [
-        {
-          "topic_id": "U1T3",
-          "title": "Cell culture and tissue engineering",
-          "hours": 3.0,
-          "study_tip": "Learn about different cell types, culture conditions, and the basic principles of regenerative medicine."
-        }
-      ],
-      "total_hours": 3.0,
-      "is_revision_day": false
-    },
-    {
-      "day": 4,
-      "label": "Day 4 — Revision",
-      "daily_goal": "Conduct a comprehensive review of all studied topics (U1T1, U1T2, U1T3).",
+      "label": "Day 1 \u2014 Exam Revision",
+      "daily_goal": "Conduct a comprehensive review of all high-priority concepts and practice key problem types to solidify understanding before the exam.",
       "topics": [],
-      "total_hours": 3.0,
-      "is_revision_day": true
-    },
-    {
-      "day": 5,
-      "label": "Day 5 — Final Review",
-      "daily_goal": "Perform a final review, attempt practice problems, and self-assess preparedness.",
-      "topics": [],
-      "total_hours": 3.0,
+      "total_hours": 1.0,
       "is_revision_day": true
     }
   ],
-  "revision_days": [4, 5],
+  "revision_days": [
+    1
+  ],
   "unscheduled_topics": [
+    "U1T4",
+    "U1T3",
+    "U1T1",
+    "U1T2",
     "U2T1",
-    "U5T1",
+    "U2T5",
+    "U2T6",
+    "U2T3",
+    "U2T2",
+    "U2T4",
     "U3T1",
-    "U3T2",
     "U3T3",
+    "U3T2",
     "U3T4",
+    "U3T5",
     "U4T1",
     "U4T2",
-    "U4T3",
-    "U4T4",
-    "U1T4",
-    "U2T2",
-    "U2T3",
-    "U2T4",
+    "U5T1",
     "U5T2",
-    "U5T3",
-    "U5T5",
-    "U5T4"
+    "U5T3"
   ],
   "warnings": [
-    "Due to severe time constraints (3 days for new topics, 3 hours/day, total 9 hours vs. 58 estimated hours for the full course), only the most foundational topics could be scheduled. A significant portion of the course content, including many high-priority and high-risk topics, remains unscheduled. This schedule provides only a minimal foundational understanding."
+    "Due to only 1 day until the exam and the rule to reserve the last 2 days for revision, no new topics could be scheduled. The entire available day (Day 1) is designated for revision.",
+    "A significant number of topics (20) with an estimated total of 35.0 hours could not be covered. Focus your revision on the most critical concepts you are already familiar with."
   ]
 }
-```

@@ -13,8 +13,8 @@ ADK pattern used:
 """
 
 from google.adk.agents import LlmAgent
-
-MODEL = "gemini-2.5-flash"
+from google.genai import types as genai_types
+from agents.config import MODEL
 
 PARSER_INSTRUCTION = """
 You are an expert academic syllabus analyst.
@@ -64,4 +64,7 @@ parser_agent = LlmAgent(
         "all units, topics, subtopics, and marks hints."
     ),
     output_key="parsed_topics",   # saves output → session.state["parsed_topics"]
+    generate_content_config=genai_types.GenerateContentConfig(
+        response_mime_type="application/json",
+    ),
 )

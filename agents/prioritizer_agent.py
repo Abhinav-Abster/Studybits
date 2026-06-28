@@ -13,8 +13,8 @@ ADK pattern used:
 """
 
 from google.adk.agents import LlmAgent
-
-MODEL = "gemini-2.5-flash"
+from google.genai import types as genai_types
+from agents.config import MODEL
 
 PRIORITIZER_INSTRUCTION = """
 You are an expert exam preparation strategist for engineering/university students.
@@ -73,4 +73,7 @@ prioritizer_agent = LlmAgent(
         "study order based on marks weightage, difficulty, and dependencies."
     ),
     output_key="priority_plan",   # → session.state["priority_plan"]
+    generate_content_config=genai_types.GenerateContentConfig(
+        response_mime_type="application/json",
+    ),
 )

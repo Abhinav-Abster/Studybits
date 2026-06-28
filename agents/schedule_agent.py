@@ -13,8 +13,8 @@ ADK pattern:
 """
 
 from google.adk.agents import LlmAgent
-
-MODEL = "gemini-2.5-flash"
+from google.genai import types as genai_types
+from agents.config import MODEL
 
 SCHEDULE_INSTRUCTION = """
 You are an expert study schedule builder for university students preparing for exams.
@@ -78,4 +78,7 @@ schedule_agent = LlmAgent(
         "calendar that respects topic dependencies and daily hour budgets."
     ),
     output_key="study_schedule",  # → session.state["study_schedule"]
+    generate_content_config=genai_types.GenerateContentConfig(
+        response_mime_type="application/json",
+    ),
 )

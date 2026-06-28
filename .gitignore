@@ -21,8 +21,8 @@ build/
 *.sqlite3
 
 # Data (Optional: uncomment if you don't want to track generated plans/profiles)
-# data/plans/
-# data/profiles/
+data/plans/
+data/profiles/
 
 # OS Files
 .DS_Store

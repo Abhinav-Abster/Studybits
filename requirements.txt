@@ -1,0 +1,8 @@
+# requirements.txt
+google-adk
+fastapi
+uvicorn
+python-multipart
+pdfplumber
+python-dotenv
+mcp

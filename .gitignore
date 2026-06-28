@@ -27,3 +27,12 @@ data/profiles/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# .gitignore
+.env
+__pycache__/
+.adk/
+data/plans/
+data/profiles/
+node_modules/
+.next/
